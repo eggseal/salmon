@@ -1,7 +1,11 @@
 import React from "react";
-import "./App.css";
 
-export class App extends React.Component {
+import "./App.css";
+import Section from "../components/Section";
+import ButtonPicker from "../components/ButtonPicker";
+import Graph, { ParentGraph } from "../components/Graph";
+
+class App extends React.Component {
   componentDidMount = () => {
     document.title = "Salmon";
   };
@@ -9,12 +13,27 @@ export class App extends React.Component {
   render = () => {
     return (
       <main>
-        <section id="graphing">
-          <h2 className="section-header">Function Graphing</h2>
-        </section>
-        <section id="methods">
-          <h2 className="section-header">Solver Methods</h2>
-        </section>
+        <Section id="graphing" title="Function Graphing">
+          <ParentGraph id="home-graph" withInput={true} />
+        </Section>
+        <Section id="methods" title="Solver Methods">
+          <Section className="subsection" title="Non-Linear Equations">
+            <ButtonPicker
+              options={[
+                "Incremental Search",
+                "Bisection",
+                "Regula-Falsi",
+                "Fixed Point",
+                "Newton-Raphson",
+                "Secant",
+                "Multiple Roots",
+              ]}
+            />
+          </Section>
+          <Section className="subsection" title="Linear Equations">
+            <ButtonPicker options={["Jacobi", "Gauss-Seidel", "SOR"]} />
+          </Section>
+        </Section>
       </main>
     );
   };

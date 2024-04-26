@@ -1,0 +1,56 @@
+.function-plot .tick line {
+  stroke: hsl(0 0% 50%);
+}
+.function-plot .origin {
+  stroke: white;
+}
+.parent-graph {
+  display: flex;
+}
+.graph {
+  overflow: visible;
+  flex: 1 1 0;
+}
+.graph-inputs {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.graph-inputs button {
+  cursor: pointer;
+  padding: 0 1rem;
+  width: 100%;
+  color: white;
+  background-color: transparent;
+  border: 1px solid var(--bg-600);
+  border-radius: var(--b-rad);
+  font-size: 1.25rem;
+  font-weight: 300;
+  transition: 150ms;
+  align-self: flex-end;
+}
+.graph-inputs button:hover {
+    background-color: var(--bg-300);
+}
+.graph-input-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+}
+.graph-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: black;
+  border: 1px solid var(--bg-300);
+  border-radius: var(--b-rad);
+  transition: 150ms;
+}
+.graph-input:focus {
+  outline: none;
+  border-color: var(--bg-600);
+}
