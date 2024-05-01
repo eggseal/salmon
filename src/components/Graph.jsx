@@ -6,9 +6,21 @@ import "./Graph.css";
 class ParentGraph extends Component {
   constructor(props) {
     super(props);
+    this.colors = [
+      "#EBAB06",
+      "#EB3727",
+      "#942894",
+      "#00C70C",
+      "#ACEB7D",
+      "#275BE8",
+      "#3A9492",
+      "#755947",
+      "#FAFA46",
+      "#571BD1",
+    ];
     this.state = {
       rem: null,
-      functions: ["x^2"],
+      functions: ["x"],
     };
   }
 
@@ -26,7 +38,10 @@ class ParentGraph extends Component {
 
   addFunction = () => {
     const functions = this.state.functions;
-    if (functions.length < 10) functions.push("");
+    if (functions.length < 10) {
+      let pos = functions.push("");
+      functions[pos-1] = `x^${pos}`
+    } else return;
 
     this.setState({
       functions,
@@ -38,6 +53,7 @@ class ParentGraph extends Component {
     const input = (
       <GraphInput
         data={this.state.functions}
+        colors={this.colors}
         handleInput={this.handleInput}
         addFunction={this.addFunction}
       />
@@ -46,7 +62,7 @@ class ParentGraph extends Component {
     return (
       <div className="parent-graph">
         {withInput ? input : ""}
-        <Graph id={id} functions={this.state.functions}></Graph>
+        <Graph id={id} colors={this.colors} functions={this.state.functions}></Graph>
       </div>
     );
   };
@@ -57,6 +73,7 @@ class Graph extends Component {
     super(props);
 
     this.graphElement = null;
+    this.colors = props.colors;
     this.state = {
       remSize: null,
     };
@@ -76,15 +93,17 @@ class Graph extends Component {
   updatePlot = () => {
     if (!this.graphElement) return;
     const target = `#${this.props.id}`;
-    const height = this.state.remSize * 35;
+    const height = this.state.remSize * 27.75;
     const width = parseInt(window.getComputedStyle(this.graphElement).width);
 
     const domY = 30;
     const domX = domY * (width / height);
     const fnData = [];
+    let i = 0;
     for (const fun of this.props.functions) {
       if (!fun) continue;
-      fnData.push({ fn: fun });
+      fnData.push({ fn: fun, color: this.colors[i], sampler: "builtIn", graphType: "polyline" });
+      i++;
     }
 
     try {
@@ -97,7 +116,7 @@ class Graph extends Component {
         data: fnData,
         grid: true,
       });
-    } catch(e) {}
+    } catch (e) {}
   };
 
   componentDidMount = () => {
@@ -107,7 +126,7 @@ class Graph extends Component {
 
   render = () => {
     const { id, functions } = this.props;
-    this.updatePlot()
+    this.updatePlot();
 
     return <div ref={(e) => (this.graphElement = e)} id={id} className="graph"></div>;
   };
@@ -116,6 +135,7 @@ class Graph extends Component {
 class GraphInput extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       inputs: 1,
     };
@@ -126,21 +146,25 @@ class GraphInput extends Component {
   };
 
   render = () => {
-    const { data, handleInput, addFunction } = this.props;
+    const { data, colors, handleInput, addFunction } = this.props;
     return (
       <div className="graph-inputs">
-        <form className="graph-input-wrapper">
+        <div className="graph-input-wrapper">
           {data.map((fn, index) => (
-            <input
-              type="text"
-              className="graph-input"
-              name={`graphin-${index}`}
-              value={fn}
-              key={index}
-              onChange={handleInput}
-            />
+            <div className="graph-input-wrapper2">
+              <div className="function-color" style={{ background: colors[index] }}></div>
+              <span>{String.fromCharCode(102 + index)}() = </span>
+              <input
+                type="text"
+                className="graph-input"
+                name={`graphin-${index}`}
+                value={fn}
+                key={index}
+                onChange={handleInput}
+              />
+            </div>
           ))}
-        </form>
+        </div>
         <button onClick={() => this.addFunction(addFunction)}>+</button>
       </div>
     );

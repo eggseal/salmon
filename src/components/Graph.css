@@ -4,6 +4,9 @@
 .function-plot .origin {
   stroke: white;
 }
+.top-right-legend {
+  font-size: .8rem;
+}
 .parent-graph {
   display: flex;
 }
@@ -17,7 +20,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
 }
 .graph-inputs button {
   cursor: pointer;
@@ -33,21 +35,39 @@
   align-self: flex-end;
 }
 .graph-inputs button:hover {
-    background-color: var(--bg-300);
+  background-color: var(--bg-300);
 }
 .graph-input-wrapper {
   width: 100%;
-  display: flex;
   flex-wrap: wrap;
   align-self: flex-start;
 }
+.graph-input-wrapper2 {
+  display: flex;
+  align-items: center;
+  margin: .5rem 0;
+}
+.graph-input-wrapper2 > span {
+  margin: 0 0.5rem;
+  flex: 0 0 auto;
+  font-family: monospace;
+  font-style: italic;
+}
+.function-color {
+  margin-left: .5rem;
+  width: .75rem;
+  aspect-ratio: 1;
+  border-radius: 100%;
+}
 .graph-input {
   width: 100%;
+  margin-right: .5rem;
   padding: 0.5rem 1rem;
   color: white;
-  background-color: black;
+  background-color: var(--bg-300);
   border: 1px solid var(--bg-300);
   border-radius: var(--b-rad);
+  font-family: monospace;
   transition: 150ms;
 }
 .graph-input:focus {
