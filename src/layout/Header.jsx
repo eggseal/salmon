@@ -10,17 +10,7 @@ function Header() {
           <img className="header-logo" alt="Logo" />
           <h1 className="header-title">SALMON</h1>
         </a>
-        <nav>
-          <a className="nav-item" href="/#methods">
-            Methods
-          </a>
-          <a className="nav-item" href="/about">
-            About
-          </a>
-          <a className="nav-item" href="/help">
-            Help
-          </a>
-        </nav>
+        <nav></nav>
       </div>
     </header>
   );

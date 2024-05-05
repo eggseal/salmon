@@ -9,10 +9,17 @@
 }
 .parent-graph {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.parent-graph > div {
+  min-width: 20rem;
 }
 .graph {
   overflow: visible;
-  flex: 1 1 0;
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 30rem;
 }
 .graph-inputs {
   display: flex;
@@ -20,6 +27,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  max-width: 30rem;
 }
 .graph-inputs button {
   cursor: pointer;

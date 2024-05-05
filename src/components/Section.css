@@ -9,10 +9,12 @@ section {
 }
 .section-content:has(.subsection) {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 .subsection {
-  flex: 1 1 0;
+  width: 100%;
+  background-color: transparent;
 }
 .section-header {
   margin: 0 0.5rem;

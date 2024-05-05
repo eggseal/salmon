@@ -6,6 +6,7 @@ footer {
 }
 .footer-wrapper {
   display: flex;
+  flex-wrap: wrap;
   padding: 1.5rem 1rem;
   gap: 3rem;
   height: 100%;
@@ -13,6 +14,7 @@ footer {
   border: 1px solid var(--bg-300);
   border-radius: var(--b-rad);
 }
+
 .footer-wrapper .brand-wrapper {
   flex: 1 1 0;
   justify-content: right;
@@ -43,4 +45,24 @@ footer {
 .footer-links .section-link {
   display: block;
   margin: 0.5rem 0;
+}
+@media screen and (width <= 40rem) {
+  .footer-wrapper {
+    gap: 0.5rem;
+  }
+  .footer-wrapper .brand-wrapper {
+    justify-content: center;
+  }
+  .footer-links {
+    border: none;
+  }
+  .footer-links .section-link {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding-right: 0.5rem;
+    border-right: 1px solid var(--bg-500);
+  }
+  .footer-links .section-link:last-of-type {
+    border: none;
+  }
 }

@@ -40,7 +40,7 @@ class ParentGraph extends Component {
     const functions = this.state.functions;
     if (functions.length < 10) {
       let pos = functions.push("");
-      functions[pos-1] = `x^${pos}`
+      functions[pos - 1] = `x^${pos}`;
     } else return;
 
     this.setState({
@@ -93,8 +93,11 @@ class Graph extends Component {
   updatePlot = () => {
     if (!this.graphElement) return;
     const target = `#${this.props.id}`;
-    const height = this.state.remSize * 27.75;
-    const width = parseInt(window.getComputedStyle(this.graphElement).width);
+    let height = this.state.remSize * 30;
+    let width = parseInt(window.getComputedStyle(this.graphElement).width);
+
+    height = Math.min(height, width);
+    width = height;
 
     const domY = 30;
     const domX = domY * (width / height);
@@ -125,7 +128,7 @@ class Graph extends Component {
   };
 
   render = () => {
-    const { id, functions } = this.props;
+    const { id } = this.props;
     this.updatePlot();
 
     return <div ref={(e) => (this.graphElement = e)} id={id} className="graph"></div>;
@@ -151,7 +154,7 @@ class GraphInput extends Component {
       <div className="graph-inputs">
         <div className="graph-input-wrapper">
           {data.map((fn, index) => (
-            <div className="graph-input-wrapper2">
+            <div className="graph-input-wrapper2" key={index}>
               <div className="function-color" style={{ background: colors[index] }}></div>
               <span>{String.fromCharCode(102 + index)}() = </span>
               <input
@@ -159,7 +162,6 @@ class GraphInput extends Component {
                 className="graph-input"
                 name={`graphin-${index}`}
                 value={fn}
-                key={index}
                 onChange={handleInput}
               />
             </div>

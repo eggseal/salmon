@@ -13,6 +13,10 @@
   font-weight: 500;
   transition: 150ms;
 }
-.picker-element:hover {
-  background-color: var(--bg-300);
+.picker-element:not(.selected):hover {
+  background-color: var(--bg-400);
+}
+.picker-element.selected {
+  background-color: var(--bg-500);
+  border-color: var(--bg-700);
 }
