@@ -248,7 +248,9 @@ class Method extends Component {
           <span>
             <p className="result-answer">
               <span>Root: </span>
-              <div className="real-answer">{answer}</div>
+              <div className="real-answer">
+                <InlineMath math={answer} />
+              </div>
             </p>
             <button onClick={this.downloadAnswer}>Download .md</button>
           </span>
