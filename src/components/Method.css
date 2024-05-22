@@ -45,7 +45,7 @@ h3.method-wrapper {
   font-family: monospace;
 }
 #solve-btn {
-  margin-top: auto;
+  margin-top: .5rem;
 }
 .result-table {
   border-collapse: collapse;
@@ -54,26 +54,43 @@ h3.method-wrapper {
   background-color: var(--bg-400);
 }
 .result-table thead td {
-  padding: .25rem 1rem;
+  padding: 0.25rem 1rem;
   color: var(--fg-100);
   border-radius: var(--b-rad) 0 0 0;
-  font-size: .9rem;
+  font-size: 0.9rem;
   text-align: center;
 }
 .result-table td {
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   color: var(--fg-300);
   border: 1px solid var(--bg-600);
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-family: monospace;
 }
 .result-table tbody tr:nth-child(even) {
-  background-color: hsl(0 0% 10%);
+  background-color: hsl(8, 28%, 12.5%);
 }
-.result-answer {
+span:has(.result-answer) {
   margin-top: auto;
   text-align: center;
-  font-size: .9rem;
+  font-size: 0.9rem;
+}
+.result-answer {
+  margin: 0;
+}
+.result-answer + button {
+  cursor: pointer;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: black;
+  background-color: #fa8072;
+  border: none;
+  border-radius: 100vmax;
+  font-weight: 700;
+  transition: 150ms;
+}
+.result-answer + button:hover {
+  background-color: #f8523f;
 }
 .real-answer {
   color: #fa8072;
@@ -87,4 +104,38 @@ h3.method-wrapper {
   width: 100%;
   height: 100%;
   min-width: 0;
+}
+.method-hints {
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  color: var(--fg-300);
+  font-size: .9rem;
+}
+.method-hints p {
+  position: relative;
+  padding: .5rem;
+  padding-left: 1rem;
+  margin: 0.25rem 0 ;
+  width: 16rem;
+  min-width: 0;
+  border-radius: var(--b-rad);
+}
+.method-hints p::before {
+  position: absolute;
+  top: .25rem;
+  left: 0;
+  height: calc(100% - 0.5rem);
+  width: .35rem;
+  content: "";
+  background-color: hsl(6, 15%, 26%);
+  border: 1px solid hsl(6, 15%, 46%);
+  border-radius: 100vmax;
+}
+.result-table .katex-display {
+  margin: 0
+}
+.result-table tbody td:not(.empty){
+  font-family: monospace;
+  font-size: 0.95rem;
 }

@@ -1,13 +1,13 @@
 header {
   padding: 0.5rem;
-  height: var(--header-height);
+  height: 4.5rem;
   width: 100%;
 }
 .header-wrapper {
   display: flex;
   padding: 0.5rem;
   height: 100%;
-  background-color: #fa807210;
+  background-color: #fa8072f0;
   border: 1px solid #fa8072;
   border-radius: var(--b-rad);
 }
@@ -22,7 +22,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto;
   height: 100%;
   aspect-ratio: 1;
   color: var(--bg-600);
@@ -31,8 +30,8 @@ header {
 }
 .header-title {
   margin: 0;
-  color: hsl(6, 93%, 80%);
-  font-weight: 300;
+  color: hsl(6, 93%, 0%);
+  font-weight: 500;
   letter-spacing: 2px;
 }
 nav {

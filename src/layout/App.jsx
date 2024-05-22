@@ -20,7 +20,20 @@ class App extends React.Component {
     super(props);
     this.state = {
       method: "",
+      linear: "",
+      interpolate: "",
     };
+  }
+
+  static getRem = () => {
+    const div = document.createElement("div");
+    div.style.fontSize = "1rem";
+    document.body.appendChild(div);
+
+    const size = window.getComputedStyle(div).fontSize;
+    document.body.removeChild(div);
+
+    return parseInt(size);
   }
 
   componentDidMount = () => {
@@ -31,8 +44,15 @@ class App extends React.Component {
     this.setState({ method });
   };
 
+  updateLinear = (linear) => {
+    this.setState({ linear });
+  };
+  updateInterp = (interpolate) => {
+    this.setState({ interpolate });
+  };
+
   render = () => {
-    const { method } = this.state;
+    const { method, linear, interpolate } = this.state;
     const methods = {
       "Incremental Search": <IncrementalSearch />,
       Bisection: <Bisection />,
@@ -41,28 +61,27 @@ class App extends React.Component {
       "Newton-Raphson": <NewtonRaphson />,
       Secant: <Secant />,
       "Multiple Roots": <MultipleRoots />,
+    };
+    const linears = {
       Jacobi: <Jacobi />,
       "Gauss-Seidel": <GaussSeidel />,
       SOR: <SOR />,
     };
+    const interpolates = {
+      Vandermonde: <div>Vandermonde</div>,
+      Newton: <div>Newton</div>,
+    };
 
     return (
       <main>
-        <Section id="graphing" title="Function Graphing">
+        {/* <Section id="graphing" title="Function Graphing">
           <ParentGraph id="home-graph" withInput={true} />
-        </Section>
-        <Section id="methods" title="Solver Methods">
+        </Section> */}
+        <Section id="methods" title="Chapter 1 - Root Finding Algorithms">
           <div className="method-options">
-            <Section className="subsection" title="Non-Linear Equations">
+            <Section className="subsection" title="Methods">
               <ButtonPicker
-                options={Object.keys(methods).slice(0, 7)}
-                method={method}
-                updateMethod={this.updateMethod}
-              />
-            </Section>
-            <Section className="subsection" title="Linear Equations">
-              <ButtonPicker
-                options={Object.keys(methods).slice(7, 10)}
+                options={Object.keys(methods)}
                 method={method}
                 updateMethod={this.updateMethod}
               />
@@ -70,6 +89,32 @@ class App extends React.Component {
           </div>
           <div style={{ display: "flex", alignItems: "center", color: "#5f5f5f" }}>&#8811;</div>
           {methods[this.state.method] || <h3 className="method-wrapper">Select a method.</h3>}
+        </Section>
+        <Section id="linear" title="Chapter 2 - Linear Equations">
+          <div className="method-options">
+            <Section className="subsection" title="Methods">
+              <ButtonPicker
+                options={Object.keys(linears)}
+                method={linear}
+                updateMethod={this.updateLinear}
+              />
+            </Section>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", color: "#5f5f5f" }}>&#8811;</div>
+          {linears[linear] || <h3 className="method-wrapper">Select a method.</h3>}
+        </Section>
+        <Section id="interpolation" title="Chapter 3 - Interpolation Algorithms">
+          <div className="method-options">
+            <Section className="subsection" title="Methods">
+              <ButtonPicker
+                options={Object.keys(interpolates)}
+                method={interpolate}
+                updateMethod={this.updateInterp}
+              />
+            </Section>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", color: "#5f5f5f" }}>&#8811;</div>
+          {interpolates[interpolate] || <h3 className="method-wrapper">Select a method.</h3>}
         </Section>
       </main>
     );
