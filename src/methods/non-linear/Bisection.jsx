@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
-import Method, { AbstractInput } from "../../components/Method";
+import Method, { AbstractInput, MethodReturn } from "../../components/Method";
+import { InlineMath } from "react-katex";
 
 class Bisection extends Component {
   method = (fun, a, b, tol, n) => {
@@ -38,24 +39,44 @@ class Bisection extends Component {
         Method.addResult(table, i, m, f(m), err);
       }
     }
-    return {
+
+    return new MethodReturn({
       table,
-      labels: ["i", "xm", "f(xm)", "E"],
-      interval: false,
-      sol: m,
-    };
+      labels: ["i", "x_m", "f(x_m)", "E"],
+      anotherones: [],
+      sol0: m,
+      sol1: undefined,
+    });
   };
 
   render = () => {
     const inputs = [
       new AbstractInput("Function", "f(x)", "The function to solve", true, null),
-      new AbstractInput("Start", "a", "The point where the method starts", true, null),
-      new AbstractInput("End", "b", "The point where the method ends", true, null),
+      new AbstractInput("Start", "x_a", "The point where the method starts", true, null),
+      new AbstractInput("End", "x_b", "The point where the method ends", true, null),
       new AbstractInput("Tolerance", "Tol", "Presicion of the result", true),
       new AbstractInput("Iterations", "N", "Amount of allowed iterations", false, 100),
     ];
 
-    return <Method id="bisection" inputs={inputs} method={this.method}></Method>;
+    const helps = [
+      <p>
+        {" "}
+        <InlineMath math={"f(x)"} /> must be continous between <InlineMath math={"a"} /> and{" "}
+        <InlineMath math={"b"} />
+      </p>,
+      <p>
+        {" "}
+        <InlineMath math="b" /> must be greater than <InlineMath math="a" />{" "}
+      </p>,
+      <p>
+        <InlineMath math="f(a)" /> and <InlineMath math="f(b)" /> must have opposite signs
+      </p>,
+      <p>
+        <InlineMath math="N" /> must be greater than <InlineMath math="0" />
+      </p>,
+    ];
+
+    return <Method id="bisection" inputs={inputs} method={this.method} helps={helps}></Method>;
   };
 }
 

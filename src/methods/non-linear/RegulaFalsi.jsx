@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
-import Method, { AbstractInput } from "../../components/Method";
+import { InlineMath } from "react-katex";
+import Method, { AbstractInput, MethodReturn } from "../../components/Method";
 
 class RegulaFalsi extends Component {
   method = (fun, a, b, tol, n) => {
@@ -37,24 +38,44 @@ class RegulaFalsi extends Component {
         Method.addResult(table, i, xr, f(xr), err);
       }
     }
-    return {
+
+    return new MethodReturn({
       table,
-      labels: ["i", "xr", "f(xr)", "E"],
-      interval: false,
-      sol: xr,
-    };
+      labels: ["i", "x_r", "f(x_r)", "E"],
+      anotherones: [],
+      sol0: xr,
+      sol1: undefined,
+    });
   };
 
   render = () => {
     const inputs = [
       new AbstractInput("Function", "f(x)", "The function to solve", true, null),
-      new AbstractInput("Start", "a", "The point where the method starts", true, null),
-      new AbstractInput("End", "b", "The point where the method ends", true, null),
+      new AbstractInput("Start", "x_a", "The point where the method starts", true, null),
+      new AbstractInput("End", "x_b", "The point where the method ends", true, null),
       new AbstractInput("Tolerance", "Tol", "Presicion of the result", true),
       new AbstractInput("Iterations", "N", "Amount of allowed iterations", false, 100),
     ];
 
-    return <Method id="regula-falsi" inputs={inputs} method={this.method}></Method>;
+    const helps = [
+      <p>
+        {" "}
+        <InlineMath math={"f(x)"} /> must be continous between <InlineMath math={"a"} /> and{" "}
+        <InlineMath math={"b"} />
+      </p>,
+      <p>
+        {" "}
+        <InlineMath math="b" /> must be greater than <InlineMath math="a" />{" "}
+      </p>,
+      <p>
+        <InlineMath math="f(a)" /> and <InlineMath math="f(b)" /> must have opposite signs
+      </p>,
+      <p>
+        <InlineMath math="N" /> must be greater than <InlineMath math="0" />
+      </p>,
+    ];
+
+    return <Method id="regula-falsi" inputs={inputs} method={this.method} helps={helps}></Method>;
   };
 }
 
