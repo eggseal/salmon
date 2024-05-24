@@ -1,0 +1,84 @@
+.function-plot .tick line {
+  stroke: hsl(0 0% 50%);
+}
+.function-plot .origin {
+  stroke: white;
+}
+.top-right-legend {
+  font-size: .8rem;
+}
+.parent-graph {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.parent-graph > div {
+  min-width: 20rem;
+}
+.graph {
+  overflow: visible;
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 30rem;
+}
+.graph-inputs {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 30rem;
+}
+.graph-inputs button {
+  cursor: pointer;
+  padding: 0 1rem;
+  width: 100%;
+  color: white;
+  background-color: transparent;
+  border: 1px solid var(--bg-600);
+  border-radius: var(--b-rad);
+  font-size: 1.25rem;
+  font-weight: 300;
+  transition: 150ms;
+  align-self: flex-end;
+}
+.graph-inputs button:hover {
+  background-color: var(--bg-300);
+}
+.graph-input-wrapper {
+  width: 100%;
+  flex-wrap: wrap;
+  align-self: flex-start;
+}
+.graph-input-wrapper2 {
+  display: flex;
+  align-items: center;
+  margin: .5rem 0;
+}
+.graph-input-wrapper2 > span {
+  margin: 0 0.5rem;
+  flex: 0 0 auto;
+  font-family: monospace;
+  font-style: italic;
+}
+.function-color {
+  margin-left: .5rem;
+  width: .75rem;
+  aspect-ratio: 1;
+  border-radius: 100%;
+}
+.graph-input {
+  width: 100%;
+  margin-right: .5rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: var(--bg-300);
+  border: 1px solid var(--bg-300);
+  border-radius: var(--b-rad);
+  font-family: monospace;
+  transition: 150ms;
+}
+.graph-input:focus {
+  outline: none;
+  border-color: var(--bg-600);
+}

@@ -1,11 +1,61 @@
+:root {
+  --bg-100: hsl(0 0% 0%);
+  --bg-200: hsl(8, 28%, 5%);
+  --bg-300: hsl(8, 28%, 10%);
+  --bg-400: hsl(8, 28%, 15%);
+  --bg-500: hsl(8, 28%, 20%);
+  --bg-600: hsl(8, 28%, 25%);
+  --bg-700: hsl(8, 28%, 30%);
+
+  --fg-100: hsl(0 0% 100%);
+  --fg-200: hsl(9, 6%, 93%);
+  --fg-300: hsl(9, 6%, 83%);
+  --fg-400: hsl(9, 6%, 73%);
+  --fg-500: hsl(9, 6%, 63%);
+  --fg-600: hsl(9, 6%, 53%);
+
+  --b-rad: 0.5rem;
+  --header-height: clamp(65px, 6vh, 90px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  color: white;
+  background-color: black;
+}
+
+body,
+button {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 code {
-  font-family: "Segoe UI", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@keyframes link-dot-spin {
+  0% {
+    width: 0.5rem;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  100% {
+    width: 0.375rem;
+    transform: translateY(-50%) rotate(225deg);
+  }
 }

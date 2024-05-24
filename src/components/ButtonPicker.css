@@ -1,0 +1,22 @@
+.button-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.5rem;
+}
+.picker-element {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  color: var(--fg-300);
+  background-color: transparent;
+  border: 1px solid var(--bg-600);
+  border-radius: 100vmax;
+  font-weight: 500;
+  transition: 150ms;
+}
+.picker-element:not(.selected):hover {
+  background-color: var(--bg-400);
+}
+.picker-element.selected {
+  background-color: var(--bg-500);
+  border-color: var(--bg-700);
+}

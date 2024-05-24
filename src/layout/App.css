@@ -1,0 +1,28 @@
+main {
+  flex: 1 0 0;
+  padding: 0 0.5rem;
+  gap: 0.5rem;
+}
+main > * {
+  margin-bottom: 0.5rem;
+}
+main > *:last-of-type {
+  margin: 0;
+}
+.method-options {
+  background-color: var(--bg-300);
+  border: 1px solid var(--bg-500);
+  border-radius: var(--b-rad);
+}
+.button-primary {
+  cursor: pointer;
+  padding: .5rem 1rem;
+  background-color: #fa8072;
+  border: none;
+  border-radius: 100vmax;
+  font-weight: 700;
+  transition: 150ms;
+}
+.button-primary:hover {
+  background-color: #f8523f;
+}
