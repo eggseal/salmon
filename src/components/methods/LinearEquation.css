@@ -1,0 +1,22 @@
+.size-changer-wrapper {
+    display: flex;
+    align-items: stretch;
+    justify-content: left;
+}
+.size-changer-wrapper input {
+    margin: 0 1rem;
+    width: 3rem;
+    min-width: 0;
+    border-color: #fa8072;
+    text-align: center;
+}
+.size-changer {
+    cursor: pointer;
+    color: #fa8072;
+    background-color: var(--bg-300);
+    border: 1px solid #fa8072;
+    border-radius: 100vmax;
+    font-size: 1rem;
+    font-weight: 700;
+
+}
