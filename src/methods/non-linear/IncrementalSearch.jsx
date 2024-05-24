@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { evaluate } from "mathjs";
 
-import Method, { AbstractInput, MethodReturn } from "../../components/Method";
+import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 import { InlineMath } from "react-katex";
 
 class IncrementalSearch extends Component {

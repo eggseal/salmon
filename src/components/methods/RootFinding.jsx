@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 
-import "./Method.css";
-import "./Section.css";
-import "./Graph.css";
+import "./_method.css";
+import "./RootFinding.css";
+import "../Section.css";
+import "../Graph.css";
 import "katex/dist/katex.min.css";
 
 import { InlineMath, BlockMath } from "react-katex";
 import { transpose } from "mathjs";
 import functionPlot from "function-plot";
-import App from "../layout/App";
+import App from "../../layout/App";
 
 class Method extends Component {
   constructor(props) {
@@ -105,7 +106,7 @@ class Method extends Component {
 
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${this.props.id}-table.md`;
+    link.download = `${this.props.id}-table.txt`;
 
     document.body.appendChild(link);
     link.click();
@@ -166,7 +167,7 @@ class Method extends Component {
     if (resTable.length > 9) {
       resTable = resTable
         .slice(0, 4)
-        .concat([new Array(res.labels.length).fill("...")])
+        .concat([new Array(res.labels.length).fill("…")])
         .concat(resTable.slice(-4));
     }
 
@@ -179,7 +180,7 @@ class Method extends Component {
               <InlineMath math={inp.label} />:
             </label>
           </td>
-          <td>
+          <td className="regular-input-wrapper">
             <input
               id={id}
               name={id}
@@ -202,7 +203,7 @@ class Method extends Component {
     const tableToTableBodyRow = (row) => (
       <tr>
         {row.map((val, index) => {
-          const small = index === 0 || val === "...";
+          const small = index === 0 || val === "…";
           const value = small ? val.toString() : parseFloat(val).toPrecision(21);
 
           return <td>{value}</td>;
@@ -213,7 +214,7 @@ class Method extends Component {
     let inputWrapper = (
       <div className="method-block input-wrapper">
         <h2 className="section-header">Inputs</h2>
-        <table style={{ tableLayout: "auto", width: "100%" }}>
+        <table>
           <tbody>{inputs.map(inputToTableBody)}</tbody>
         </table>
 
@@ -234,7 +235,7 @@ class Method extends Component {
 
       const x0 = res.sol0.toPrecision(20);
       const x1 = res.sol1?.toPrecision(20);
-      const answer = res.sol1 ? `X ∈ [${x0}, ${x1}]` : `X ≈ ${x0}`;
+      const answer = x1 ? `x ∈ [${x0}, ${x1}]` : `x ≈ ${x0}`;
       tableWrapper = (
         <div className="method-block table-wrapper">
           <h2 className="section-header">Table</h2>
@@ -252,7 +253,7 @@ class Method extends Component {
                 <InlineMath math={answer} />
               </div>
             </p>
-            <button onClick={this.downloadAnswer}>Download .md</button>
+            <button onClick={this.downloadAnswer}>Download .txt</button>
           </span>
         </div>
       );

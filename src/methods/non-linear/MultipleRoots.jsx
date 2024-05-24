@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { abs, evaluate, derivative } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/Method";
+import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 
 class MultipleRoots extends Component {
   method = (fun, x, m, tol, n) => {

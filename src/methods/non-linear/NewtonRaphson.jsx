@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { abs, derivative, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/Method";
+import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 
 class NewtonRaphson extends Component {
   method = (fun, x, tol, n) => {

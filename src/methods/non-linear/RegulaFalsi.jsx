@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/Method";
+import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 
 class RegulaFalsi extends Component {
   method = (fun, a, b, tol, n) => {
@@ -59,12 +59,10 @@ class RegulaFalsi extends Component {
 
     const helps = [
       <p>
-        {" "}
         <InlineMath math={"f(x)"} /> must be continous between <InlineMath math={"a"} /> and{" "}
         <InlineMath math={"b"} />
       </p>,
       <p>
-        {" "}
         <InlineMath math="b" /> must be greater than <InlineMath math="a" />{" "}
       </p>,
       <p>
