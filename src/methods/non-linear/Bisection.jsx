@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 import { InlineMath } from "react-katex";
+import App from "../../layout/App";
 
 class Bisection extends Component {
   method = (fun, a, b, tol, n) => {
@@ -18,17 +19,17 @@ class Bisection extends Component {
     const table = [[], [], [], []];
 
     if (f(a) === 0) {
-      Method.addResult(table, 0, a, f(a), 0);
+      App.addResult(table, 0, a, f(a), 0);
       m = a;
     } else if (f(b) === 0) {
-      Method.addResult(table, 0, b, f(b), 0);
+      App.addResult(table, 0, b, f(b), 0);
       m = b;
     } else if (f(a) * f(b) > 0) {
-      Method.addResult(table, -1, -1, -1, -1);
+      App.addResult(table, -1, -1, -1, -1);
       m = 0;
     } else {
       m = (a + b) / 2;
-      Method.addResult(table, i, m, f(m), err);
+      App.addResult(table, i, m, f(m), err);
       for (i = 1; i < n && err > tol && f(m) !== 0; i++) {
         if (f(a) * f(m) < 0) b = m;
         else a = m;
@@ -36,7 +37,7 @@ class Bisection extends Component {
         let oldM = m;
         m = (a + b) / 2;
         err = abs(m - oldM);
-        Method.addResult(table, i, m, f(m), err);
+        App.addResult(table, i, m, f(m), err);
       }
     }
 
@@ -74,7 +75,7 @@ class Bisection extends Component {
       </p>,
     ];
 
-    return <Method id="bisection" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="bisection" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 

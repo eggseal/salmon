@@ -13,9 +13,10 @@ function [E, s] = GaussSeidelMatrix(x0, A, b, tol, iter)
     D = diag(diag(A))
     L = -tril(A, -1);
     U = -triu(A, +1);
+    
+    T = (D - L) \ U;
+    C = (D - L) \ b;
     while err > tol && c < iter
-        T = (D - L) \ U;
-        C = (D - L) \ b;
         x1 = T * x0 + C;
 
         err = norm(x1 - x0, inf);

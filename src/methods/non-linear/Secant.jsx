@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class Secant extends Component {
   method = (fun, x0, x1, tol, n) => {
@@ -18,13 +19,13 @@ class Secant extends Component {
       xn2 = x0,
       xn;
     const table = [[], [], [], []];
-    Method.addResult(table, 0, x0, f(x0), err);
-    Method.addResult(table, 1, x1, f(x1), abs(x0 - x1));
+    App.addResult(table, 0, x0, f(x0), err);
+    App.addResult(table, 1, x1, f(x1), abs(x0 - x1));
     for (i = 2; i < n + 2 && err > tol; i++) {
       xn = xn1 - (f(xn1) * (xn1 - xn2)) / (f(xn1) - f(xn2));
       err = abs(xn - xn1);
 
-      Method.addResult(table, i, xn, f(xn), err);
+      App.addResult(table, i, xn, f(xn), err);
       xn2 = xn1;
       xn1 = xn;
     }
@@ -56,7 +57,7 @@ class Secant extends Component {
       </p>,
     ];
 
-    return <Method id="secant" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="secant" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 

@@ -89,4 +89,58 @@ h3.method-wrapper {
   color: var(--fg-300);
   background-color: var(--bg-300);
   border: none;
+  text-align: center;
+}
+
+.input-wrapper > button {
+  margin-top: .5rem;
+}
+
+.method-hints {
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  color: var(--fg-300);
+  font-size: .9rem;
+}
+.method-hints p {
+  position: relative;
+  padding: .5rem;
+  padding-left: 1rem;
+  margin: 0.25rem 0 ;
+  width: 16rem;
+  min-width: 0;
+  border-radius: var(--b-rad);
+}
+.method-hints p::before {
+  position: absolute;
+  top: .25rem;
+  left: 0;
+  height: calc(100% - 0.5rem);
+  width: .35rem;
+  content: "";
+  background-color: hsl(6, 15%, 26%);
+  border: 1px solid hsl(6, 15%, 46%);
+  border-radius: 100vmax;
+}
+
+.table-wrapper > span > button {
+  cursor: pointer;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: black;
+  background-color: #fa8072;
+  border: none;
+  border-radius: 100vmax;
+  font-weight: 700;
+  transition: 150ms;
+}
+.table-wrapper > span > button:hover {
+  background-color: #f8523f;
+}
+span:has(.result-answer),
+span:has(.download-btn) {
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.9rem;
 }

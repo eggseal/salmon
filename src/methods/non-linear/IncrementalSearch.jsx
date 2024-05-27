@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { evaluate } from "mathjs";
 
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
 import { InlineMath } from "react-katex";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class IncrementalSearch extends Component {
   method = (fun, x, dx, n) => {
@@ -17,12 +18,12 @@ class IncrementalSearch extends Component {
 
     let i;
     for (i = 0; i < n && f(x0) * f(x1) > 0; i++) {
-      Method.addResult(table, i, x0, f(x0));
+      App.addResult(table, i, x0, f(x0));
 
       x0 += dx;
       x1 += dx;
     }
-    if (i < n) Method.addResult(table, i, x0, f(x0));
+    if (i < n) App.addResult(table, i, x0, f(x0));
 
     return new MethodReturn({
       table,
@@ -54,7 +55,7 @@ class IncrementalSearch extends Component {
     ];
 
     return (
-      <Method id="incremental-search" inputs={inputs} method={this.method} helps={helps}></Method>
+      <RootFinding id="incremental-search" inputs={inputs} method={this.method} helps={helps}></RootFinding>
     );
   };
 }

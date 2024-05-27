@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { abs, evaluate, derivative } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class MultipleRoots extends Component {
   method = (fun, x, m, tol, n) => {
@@ -18,12 +19,12 @@ class MultipleRoots extends Component {
       err = 100,
       xn = x;
     const table = [[], [], [], [], []];
-    Method.addResult(table, i, xn, f(xn), df(xn), err);
+    App.addResult(table, i, xn, f(xn), df(xn), err);
     for (i = 1; i < n && err > tol && df(xn) !== 0; i++) {
       let oldXn = xn;
       xn = xn - (m * f(xn)) / df(xn);
       err = abs(xn - oldXn);
-      Method.addResult(table, i, xn, f(xn), df(xn), err);
+      App.addResult(table, i, xn, f(xn), df(xn), err);
 
       if (abs(f(xn)) === Infinity || abs(df(xn)) === Infinity) break;
     }
@@ -66,7 +67,7 @@ class MultipleRoots extends Component {
       </p>,
     ];
 
-    return <Method id="multiple-roots" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="multiple-roots" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 

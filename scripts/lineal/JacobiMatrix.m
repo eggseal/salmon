@@ -8,14 +8,15 @@
 function [E, s] = JacobiMatrix(x0, A, b, tol, iter)
     format long
     c = 0;
-    err = tol + 1;
+    err = 100;
 
-    D = diag(diag(A))
+    D = diag(diag(A));
     L = -tril(A, -1);
     U = -triu(A, +1);
+
+    T = D \ (L + U);
+    C = D \ b;
     while err > tol && c < iter
-        T = D \ (L + U);
-        C = D \ b;
         x1 = T * x0 + C;
 
         err = norm(x1 - x0, inf);

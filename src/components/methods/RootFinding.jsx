@@ -11,7 +11,7 @@ import { transpose } from "mathjs";
 import functionPlot from "function-plot";
 import App from "../../layout/App";
 
-class Method extends Component {
+class RootFinding extends Component {
   constructor(props) {
     super(props);
     this.graphElement = null;
@@ -21,15 +21,6 @@ class Method extends Component {
       remSize: 0,
     };
   }
-
-  /**
-   * Add a row of values to the result table where each vector is a column
-   * @param {number[][]} table
-   * @param  {...number} values
-   */
-  static addResult = (table, ...values) => {
-    for (let i = 0; i < values.length; i++) table[i].push(values[i]);
-  };
 
   /**
    * Initialize the state with default values
@@ -158,6 +149,67 @@ class Method extends Component {
     });
   };
 
+  /**
+   * Convert the abstract input element to a HTML Element
+   * @param {AbstractInput} inp
+   * @param {number} idx
+   * @returns {React.JSX.Element}
+   */
+  inputToTableBody = (inp, idx) => {
+    const id = inp.name.toLowerCase();
+    return (
+      <tr key={id}>
+        <td className="input-label">
+          <label htmlFor={id}>
+            <InlineMath math={inp.label} />:
+          </label>
+        </td>
+        <td className="regular-input-wrapper">
+          <input
+            id={id}
+            name={id}
+            placeholder={inp.name}
+            onChange={(e) => this.updateValue(e, idx)}
+          />
+        </td>
+      </tr>
+    );
+  };
+
+  /**
+   * Surround an element with span tags
+   * @param {React.JSX.Element} help
+   * @returns {React.JSX.Element}
+   */
+  helpsToSpan = (help) => <span>{help}</span>;
+
+  /**
+   * Surround a text with td tags and place the text in a BlockMath element
+   * @param {string} lbl
+   * @returns {React.JSX.Element}
+   */
+  labelsToBlockMath = (lbl) => (
+    <td key={lbl}>
+      <BlockMath math={lbl} />
+    </td>
+  );
+
+  /**
+   * Convert an array of string into a table row
+   * @param {string[]} row
+   * @returns {React.JSX.Element}
+   */
+  tableToTableBodyRow = (row) => (
+    <tr>
+      {row.map((val, index) => {
+        const small = index === 0 || val === "…";
+        const value = small ? val.toString() : parseFloat(val).toPrecision(21);
+
+        return <td>{value}</td>;
+      })}
+    </tr>
+  );
+
   render = () => {
     const { id, inputs, helps } = this.props;
     const { result: res } = this.state;
@@ -171,54 +223,14 @@ class Method extends Component {
         .concat(resTable.slice(-4));
     }
 
-    const inputToTableBody = (inp, idx) => {
-      const id = inp.name.toLowerCase();
-      return (
-        <tr key={id}>
-          <td className="input-label">
-            <label htmlFor={id}>
-              <InlineMath math={inp.label} />:
-            </label>
-          </td>
-          <td className="regular-input-wrapper">
-            <input
-              id={id}
-              name={id}
-              placeholder={inp.name}
-              onChange={(e) => this.updateValue(e, idx)}
-            />
-          </td>
-        </tr>
-      );
-    };
-
-    const helpsToSpan = (help) => <span>{help}</span>;
-
-    const labelsToBlockMath = (lbl) => (
-      <td key={lbl}>
-        <BlockMath math={lbl} />
-      </td>
-    );
-
-    const tableToTableBodyRow = (row) => (
-      <tr>
-        {row.map((val, index) => {
-          const small = index === 0 || val === "…";
-          const value = small ? val.toString() : parseFloat(val).toPrecision(21);
-
-          return <td>{value}</td>;
-        })}
-      </tr>
-    );
-
-    let inputWrapper = (
+    const inputWrapper = (
       <div className="method-block input-wrapper">
         <h2 className="section-header">Inputs</h2>
         <table>
-          <tbody>{inputs.map(inputToTableBody)}</tbody>
+          <tbody>{inputs.map(this.inputToTableBody)}</tbody>
         </table>
 
-        <span className="method-hints">{helps?.map(helpsToSpan)}</span>
+        <span className="method-hints">{helps?.map(this.helpsToSpan)}</span>
 
         <button id="solve-btn" className="button-primary" onClick={this.solveAndGraph}>
           Solve
@@ -241,9 +253,9 @@ class Method extends Component {
           <h2 className="section-header">Table</h2>
           <table className="result-table">
             <thead>
-              <tr>{res.labels.map(labelsToBlockMath)}</tr>
+              <tr>{res.labels.map(this.labelsToBlockMath)}</tr>
             </thead>
-            <tbody>{resTable.map(tableToTableBodyRow)}</tbody>
+            <tbody>{resTable.map(this.tableToTableBodyRow)}</tbody>
           </table>
 
           <span>
@@ -253,7 +265,9 @@ class Method extends Component {
                 <InlineMath math={answer} />
               </div>
             </p>
-            <button onClick={this.downloadAnswer}>Download .txt</button>
+            <button className="download-btn" onClick={this.downloadAnswer}>
+              Download .txt
+            </button>
           </span>
         </div>
       );
@@ -313,4 +327,4 @@ export class MethodReturn {
   }
 }
 
-export default Method;
+export default RootFinding;

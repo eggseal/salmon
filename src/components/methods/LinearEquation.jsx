@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import "./_method.css";
 import "./LinearEquation.css";
-import { InlineMath } from "react-katex";
+import { BlockMath, InlineMath } from "react-katex";
+import { transpose } from "mathjs";
 
 /**
  * @enum {number}
@@ -14,10 +15,18 @@ class LinearEquation extends Component {
   constructor(props) {
     super(props);
 
+    /**
+     * @type {{
+     *  inputs: AbstractInput[],
+     *  size: number,
+     *  result: MethodReturn
+     * }}
+     */
     this.state = {
       // Inputs are treated as matrices, regular inputs are a 1x1, vector inputs are nx1 and matrix inputs are nxn
       inputs: [],
       size: 4,
+      result: new MethodReturn({}),
     };
   }
 
@@ -27,6 +36,22 @@ class LinearEquation extends Component {
    * @returns {number[][]}
    */
   static parseFloatMatrix = (matrix) => matrix.map((row) => row.map((val) => parseFloat(val)));
+
+  /**
+   * Get the lower triangle of a square matrix
+   * @param {number[][]} matrix
+   * @param {number} k
+   * @returns {number[][]}
+   */
+  static tril = (matrix, k) => matrix.map((row, j) => row.map((col, i) => (j >= i - k ? col : 0)));
+
+  /**
+   * Get the upper triangle of a square matrix
+   * @param {number[][]} matrix
+   * @param {number} k
+   * @returns {number[][]}
+   */
+  static triu = (matrix, k) => matrix.map((row, j) => row.map((col, i) => (j <= i - k ? col : 0)));
 
   componentDidMount = () => {
     let { inputs } = this.props;
@@ -96,39 +121,183 @@ class LinearEquation extends Component {
     this.setState({ inputs });
   };
 
+  solve = () => {
+    const { method } = this.props;
+    const { inputs } = this.state;
+
+    const res = method(...inputs);
+    console.log(res);
+
+    this.setState({ result: res });
+  };
+
+  /**
+   * Downloads the stored answer table as a text file
+   */
+  downloadAnswer = () => {
+    // Stop if a table has not been generated
+    const { result: res } = this.state;
+    const results = transpose(res.table);
+    if (results.length === 0) return;
+
+    let table = "";
+
+    // Get the maximum column length
+    let max = 0;
+    for (const row of results) {
+      for (const value of row) {
+        max = Math.max(max, value.toPrecision(20).length + 1);
+      }
+    }
+
+    // Write the table headers
+    for (let col = 0; col < res.labels.length; col++) {
+      const header = res.labels[col];
+      const padding = col === 0 ? 4 : max;
+      table += `|$${header.padEnd(padding)}$`;
+    }
+    table += "|\n";
+
+    // Write the header separator
+    for (let col = 0; col < res.labels.length; col++) {
+      const dash = "-";
+      const repeat = col === 0 ? 4 : max;
+      table += `| ${dash.repeat(repeat)} `;
+    }
+    table += "|\n";
+
+    // Write the results
+    for (const row of results) {
+      for (let col = 0; col < row.length; col++) {
+        // If the column is the iteration number, don't give it decimals and make the column small
+        const value = col === 0 ? row[col].toString() : row[col].toPrecision(20);
+        const padding = col === 0 ? 4 : max;
+
+        if (value < 0) table += `| ${value.padEnd(padding + 1)}`;
+        else table += `|  ${value.padEnd(padding)}`;
+      }
+      table += "|\n";
+    }
+    table += "|\n";
+
+    // Create a blob url and click it to start the download
+    const blob = new Blob([table], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${this.props.id}-table.txt`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  /**
+   * Convert a AbtractInput into a HTML Element
+   * @param {AbstractInput} inp
+   * @param {number} idx
+   */
+  inputToTableBody = (inp, idx) => {
+    const { size } = this.state;
+
+    const id = inp.name.toLowerCase();
+    const tdClass = TypeLabels[inp.type];
+
+    return (
+      <tr key={id}>
+        <td className="input-label">
+          <label htmlFor={id}>
+            <InlineMath math={inp.label} />:
+          </label>
+        </td>
+        <td id={id} className={`${tdClass}-input-wrapper`} style={{ "--size": size }}>
+          {Array.from({ length: size ** inp.type }, (_, pos) => (
+            <input
+              key={`pos-${pos % size}-${Math.floor(pos / size)}`}
+              onChange={(e) => this.updateValue(e, idx, pos)}
+            />
+          ))}
+        </td>
+      </tr>
+    );
+  };
+
+  /**
+   * Surround an element with span tags
+   * @param {React.JSX.Element} help
+   * @returns {React.JSX.Element}
+   */
+  helpsToSpan = (help) => <span>{help}</span>;
+
+  /**
+   * Surround a text with td tags and place the text in a BlockMath element
+   * @param {string} lbl
+   * @returns {React.JSX.Element}
+   */
+  labelsToBlockMath = (lbl) => (
+    <td key={lbl}>
+      <BlockMath math={lbl} />
+    </td>
+  );
+
+  /**
+   * Convert an array of string into a table row
+   * @param {string[]} row
+   * @returns {React.JSX.Element}
+   */
+  tableToTableBodyRow = (row) => (
+    <tr>
+      {row.map((val, index) => {
+        const small = index === 0 || val === "…";
+        const value = small ? val.toString() : parseFloat(val).toPrecision(21);
+
+        return <td>{value}</td>;
+      })}
+    </tr>
+  );
+
+  latexEquation = () => {
+    const { result } = this.state;
+
+    let equation = "\\begin{cases}\n";
+    result.A.forEach((row, idx) => {
+      row.forEach((col, jdx) => {
+        if (jdx > 0 && col >= 0) equation += "+";
+        equation += `${col}x_{${jdx + 1}}`;
+      });
+      equation += `= ${result.b[idx]}`;
+      if (idx < result.A.length - 1) equation += "\\\\\n";
+    });
+    equation += "\n\\end{cases}";
+
+    return equation;
+  };
+
+  latexSolution = () => {
+    const { result } = this.state;
+
+    let equation = "\\begin{cases}\n";
+    result.x.forEach((x, idx) => {
+      equation += `x_{${idx + 1}} = ${x}`;
+      if (idx < result.x.length - 1) equation += "\\\\\n";
+    });
+    equation += "\n\\end{cases}";
+
+    return equation;
+  };
+
   render = () => {
-    const { id, inputs, method } = this.props;
-    const { size, inputs: ins } = this.state;
+    const { id, inputs, helps } = this.props;
+    const { size, result } = this.state;
 
-    console.log(ins);
-
-    /**
-     * Convert a AbtractInput into a HTML Element
-     * @param {AbstractInput} inp
-     * @param {number} idx
-     */
-    const inputToTableBody = (inp, idx) => {
-      const id = inp.name.toLowerCase();
-      const tdClass = TypeLabels[inp.type];
-
-      return (
-        <tr key={id}>
-          <td className="input-label">
-            <label htmlFor={id}>
-              <InlineMath math={inp.label} />:
-            </label>
-          </td>
-          <td id={id} className={`${tdClass}-input-wrapper`} style={{ "--size": size }}>
-            {Array.from({ length: size ** inp.type }, (_, pos) => (
-              <input
-                key={`pos-${pos % size}-${Math.floor(pos / size)}`}
-                onChange={(e) => this.updateValue(e, idx, pos)}
-              />
-            ))}
-          </td>
-        </tr>
-      );
-    };
+    let resTable = transpose(result.table);
+    if (resTable.length > 9) {
+      resTable = resTable
+        .slice(0, 4)
+        .concat([new Array(result.labels.length).fill("…")])
+        .concat(resTable.slice(-4));
+    }
 
     const inputWrapper = (
       <div className="method-block input-wrapper">
@@ -149,17 +318,56 @@ class LinearEquation extends Component {
                 </button>
               </td>
             </tr>
-            {inputs.map(inputToTableBody)}
+            {inputs.map(this.inputToTableBody)}
           </tbody>
         </table>
 
-        <button onClick={() => method(...ins)}></button>
+        <span className="method-hints">{helps?.map(this.helpsToSpan)}</span>
+
+        <button className="button-primary" onClick={this.solve}>
+          Solve
+        </button>
       </div>
     );
+
+    let inputSeparator, tableWrapper;
+    if (result.table.length > 0) {
+      console.log(resTable);
+      inputSeparator = (
+        <div style={{ display: "flex", alignItems: "center", color: "#5f5f5f" }}>&#8811;</div>
+      );
+
+      tableWrapper = (
+        <div className="method-block table-wrapper">
+          <h2 className="section-header">Table</h2>
+          <table className="result-table">
+            <thead>
+              <tr>{result.labels.map(this.labelsToBlockMath)}</tr>
+            </thead>
+            <tbody>{resTable.map(this.tableToTableBodyRow)}</tbody>
+          </table>
+          <h2 className="section-header">Equation</h2>
+          <div className="equation-container">
+            <BlockMath math={this.latexEquation()} />
+            <BlockMath math={this.latexSolution()} />
+          </div>
+          <span>
+            <button className="download-btn" onClick={this.downloadAnswer}>
+              Download Table
+            </button>
+            <button className="download-btn" onClick={this.downloadAnswer}>
+              Download Equation
+            </button>
+          </span>
+        </div>
+      );
+    }
 
     return (
       <div className="method-wrapper" id={id}>
         {inputWrapper}
+        {inputSeparator ?? ""}
+        {tableWrapper ?? ""}
       </div>
     );
   };
@@ -181,6 +389,25 @@ export class AbstractInput {
     this.req = req;
     this.def = def;
     this.type = type;
+  }
+}
+
+export class MethodReturn {
+  /**
+   * @param {{
+   *   table: number[][],
+   *   labels: string[],
+   *   A: number[][],
+   *   x: number[],
+   *   b: number[],
+   * }} param0
+   */
+  constructor({ table, labels, A, x, b }) {
+    this.table = table ?? [];
+    this.labels = labels ?? [];
+    this.A = A ?? [];
+    this.x = x ?? [];
+    this.b = b ?? [];
   }
 }
 

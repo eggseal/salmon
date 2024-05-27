@@ -1,6 +1,3 @@
-#solve-btn {
-  margin-top: .5rem;
-}
 .result-table {
   border-collapse: collapse;
 }
@@ -24,27 +21,8 @@
 .result-table tbody tr:nth-child(even) {
   background-color: hsl(8, 28%, 12.5%);
 }
-span:has(.result-answer) {
-  margin-top: auto;
-  text-align: center;
-  font-size: 0.9rem;
-}
 .result-answer {
   margin: 0;
-}
-.result-answer + button {
-  cursor: pointer;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  color: black;
-  background-color: #fa8072;
-  border: none;
-  border-radius: 100vmax;
-  font-weight: 700;
-  transition: 150ms;
-}
-.result-answer + button:hover {
-  background-color: #f8523f;
 }
 .real-answer {
   color: #fa8072;
@@ -58,33 +36,6 @@ span:has(.result-answer) {
   width: 100%;
   height: 100%;
   min-width: 0;
-}
-.method-hints {
-  display: block;
-  width: 100%;
-  margin-top: auto;
-  color: var(--fg-300);
-  font-size: .9rem;
-}
-.method-hints p {
-  position: relative;
-  padding: .5rem;
-  padding-left: 1rem;
-  margin: 0.25rem 0 ;
-  width: 16rem;
-  min-width: 0;
-  border-radius: var(--b-rad);
-}
-.method-hints p::before {
-  position: absolute;
-  top: .25rem;
-  left: 0;
-  height: calc(100% - 0.5rem);
-  width: .35rem;
-  content: "";
-  background-color: hsl(6, 15%, 26%);
-  border: 1px solid hsl(6, 15%, 46%);
-  border-radius: 100vmax;
 }
 .result-table .katex-display {
   margin: 0

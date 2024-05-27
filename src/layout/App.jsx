@@ -3,7 +3,6 @@ import React from "react";
 import "./App.css";
 import Section from "../components/Section";
 import ButtonPicker from "../components/ButtonPicker";
-import { ParentGraph } from "../components/Graph";
 import IncrementalSearch from "../methods/non-linear/IncrementalSearch";
 import Bisection from "../methods/non-linear/Bisection";
 import RegulaFalsi from "../methods/non-linear/RegulaFalsi";
@@ -25,6 +24,10 @@ class App extends React.Component {
     };
   }
 
+  /**
+   * Get the current rem size in pixels
+   * @returns {number}
+   */
   static getRem = () => {
     const div = document.createElement("div");
     div.style.fontSize = "1rem";
@@ -34,7 +37,16 @@ class App extends React.Component {
     document.body.removeChild(div);
 
     return parseInt(size);
-  }
+  };
+
+  /**
+   * Add a row of values to the result table where each vector is a column
+   * @param {number[][]} table
+   * @param  {...number} values
+   */
+  static addResult = (table, ...values) => {
+    for (let i = 0; i < values.length; i++) table[i].push(values[i]);
+  };
 
   componentDidMount = () => {
     document.title = "Salmon";
@@ -70,13 +82,12 @@ class App extends React.Component {
     const interpolates = {
       Vandermonde: <div>Vandermonde</div>,
       Newton: <div>Newton</div>,
+      Lagrange: <div>Lagrange</div>,
+      Spline: <div>Spline</div>,
     };
 
     return (
       <main>
-        {/* <Section id="graphing" title="Function Graphing">
-          <ParentGraph id="home-graph" withInput={true} />
-        </Section> */}
         <Section id="methods" title="Chapter 1 - Root Finding Algorithms">
           <div className="method-options">
             <Section className="subsection" title="Methods">

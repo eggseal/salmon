@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class RegulaFalsi extends Component {
   method = (fun, a, b, tol, n) => {
@@ -17,17 +18,17 @@ class RegulaFalsi extends Component {
       err = 100;
     const table = [[], [], [], []];
     if (f(a) === 0) {
-      Method.addResult(table, 0, a, f(a), 0);
+      App.addResult(table, 0, a, f(a), 0);
       xr = a;
     } else if (f(b) === 0) {
-      Method.addResult(table, 0, b, f(b), 0);
+      App.addResult(table, 0, b, f(b), 0);
       xr = b;
     } else if (f(a) * f(b) > 0) {
-      Method.addResult(table, -1, -1, -1, -1);
+      App.addResult(table, -1, -1, -1, -1);
       xr = 0;
     } else {
       xr = b - (f(b) * (a - b)) / (f(a) - f(b));
-      Method.addResult(table, i, xr, f(xr), err);
+      App.addResult(table, i, xr, f(xr), err);
       for (i = 1; i <= n && err > tol; i++) {
         if (f(a) * f(xr) < 0) b = xr;
         else a = xr;
@@ -35,7 +36,7 @@ class RegulaFalsi extends Component {
         let oldXr = xr;
         xr = b - (f(b) * (a - b)) / (f(a) - f(b));
         err = abs(oldXr - xr);
-        Method.addResult(table, i, xr, f(xr), err);
+        App.addResult(table, i, xr, f(xr), err);
       }
     }
 
@@ -73,7 +74,7 @@ class RegulaFalsi extends Component {
       </p>,
     ];
 
-    return <Method id="regula-falsi" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="regula-falsi" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 

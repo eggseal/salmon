@@ -6,12 +6,14 @@ section {
 section:not(.subsection) {
   display: flex;
   flex-direction: column;
-  height: max(66vh, 40rem);
+  align-items: stretch;
+  min-height: max(66vh, 40rem);
 }
 .section-content {
+  height: 100%;
   padding: 0.5rem;
   overflow: visible;
-  height: 100%;
+  flex-grow: 1;
 }
 .section-content:has(.subsection) {
   display: flex;

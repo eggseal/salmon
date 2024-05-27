@@ -8,9 +8,10 @@ function [E, s] = SOR(x0, A, b, tol, iter, w)
     D = diag(diag(A))
     L = -tril(A, -1);
     U = -triu(A, +1);
+    
+    T = (D - w*L) \ ((1 - w)*D + w*U);
+    C = w \ (D - w*L) \ b;
     while err > tol && c < iter
-        T = (D - w*L) \ ((1 - w)*D + w*U);
-        C = w \ (D - w*L) \ b;
         x1 = T * x0 + C;
 
         err = norm(x1 - x0, inf);

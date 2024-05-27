@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { abs, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class FixedPoint extends Component {
   method = (fun, gun, x, tol, ni) => {
@@ -16,12 +17,12 @@ class FixedPoint extends Component {
       i = 0,
       err = 100;
     const table = [[], [], [], []];
-    Method.addResult(table, i, x, f(x), err);
+    App.addResult(table, i, x, f(x), err);
     for (i = 1; i <= n && err > tol; i++) {
       let oldN = n;
       n = g(n);
       err = abs(oldN - n);
-      Method.addResult(table, i, g(oldN), f(n), err);
+      App.addResult(table, i, g(oldN), f(n), err);
     }
 
     return new MethodReturn({
@@ -60,7 +61,7 @@ class FixedPoint extends Component {
       </p>,
     ];
 
-    return <Method id="regula-falsi" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="regula-falsi" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { abs, derivative, evaluate } from "mathjs";
 
 import { InlineMath } from "react-katex";
-import Method, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import RootFinding, { AbstractInput, MethodReturn } from "../../components/methods/RootFinding";
+import App from "../../layout/App";
 
 class NewtonRaphson extends Component {
   method = (fun, x, tol, n) => {
@@ -17,12 +18,12 @@ class NewtonRaphson extends Component {
       xn = x,
       err = 100;
     const table = [[], [], [], [], []];
-    Method.addResult(table, i, xn, f(xn), df(xn), err);
+    App.addResult(table, i, xn, f(xn), df(xn), err);
     for (i = 1; i <= n && err > tol; i++) {
       let oldXn = xn;
       xn = oldXn - f(oldXn) / df(oldXn);
       err = abs(xn - oldXn);
-      Method.addResult(table, i, xn, f(xn), df(xn), err);
+      App.addResult(table, i, xn, f(xn), df(xn), err);
     }
 
     return new MethodReturn({
@@ -58,7 +59,7 @@ class NewtonRaphson extends Component {
       </p>,
     ];
 
-    return <Method id="newton-raphson" inputs={inputs} method={this.method} helps={helps}></Method>;
+    return <RootFinding id="newton-raphson" inputs={inputs} method={this.method} helps={helps}></RootFinding>;
   };
 }
 
