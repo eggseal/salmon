@@ -13,6 +13,10 @@ import MultipleRoots from "../methods/non-linear/MultipleRoots";
 import Jacobi from "../methods/linear/Jacobi";
 import GaussSeidel from "../methods/linear/GaussSeidel";
 import SOR from "../methods/linear/SOR";
+import Vandermonde from "../methods/interpolation/Vandermonde";
+import Newton from "../methods/interpolation/Newton";
+import Lagrange from "../methods/interpolation/Lagrange";
+import Spline from "../methods/interpolation/Spline";
 
 class App extends React.Component {
   constructor(props) {
@@ -80,10 +84,10 @@ class App extends React.Component {
       SOR: <SOR />,
     };
     const interpolates = {
-      Vandermonde: <div>Vandermonde</div>,
-      Newton: <div>Newton</div>,
-      Lagrange: <div>Lagrange</div>,
-      Spline: <div>Spline</div>,
+      Vandermonde: <Vandermonde />,
+      Newton: <Newton />,
+      Lagrange: <Lagrange />,
+      Spline: <Spline />,
     };
 
     return (
