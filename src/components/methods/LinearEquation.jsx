@@ -194,6 +194,29 @@ class LinearEquation extends Component {
   };
 
   /**
+   * Downloads the stored answer table as a text file
+   */
+  downloadEquation = () => {
+    const { result: res } = this.state;
+    if (res.A.length === 0) return;
+
+    let equation = this.latexEquation()
+    equation += "\n\n";
+    equation += this.latexSolution()
+
+    const blob = new Blob([equation], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${this.props.id}-equation.txt`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  /**
    * Convert a AbtractInput into a HTML Element
    * @param {AbstractInput} inp
    * @param {number} idx
@@ -262,11 +285,13 @@ class LinearEquation extends Component {
 
     let equation = "\\begin{cases}\n";
     result.A.forEach((row, idx) => {
+      let sum = 0;
       row.forEach((col, jdx) => {
         if (jdx > 0 && col >= 0) equation += "+";
         equation += `${col}x_{${jdx + 1}}`;
+        sum += col * result.x[jdx];
       });
-      equation += `= ${result.b[idx]}`;
+      equation += `= ${sum}`;
       if (idx < result.A.length - 1) equation += "\\\\\n";
     });
     equation += "\n\\end{cases}";
@@ -355,7 +380,7 @@ class LinearEquation extends Component {
             <button className="download-btn" onClick={this.downloadAnswer}>
               Download Table
             </button>
-            <button className="download-btn" onClick={this.downloadAnswer}>
+            <button className="download-btn" onClick={this.downloadEquation}>
               Download Equation
             </button>
           </span>

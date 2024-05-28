@@ -6,6 +6,7 @@ import LinearEquation, {
 } from "../../components/methods/LinearEquation";
 import { diag, add, transpose, multiply, norm, subtract, inv } from "mathjs";
 import App from "../../layout/App";
+import { InlineMath } from "react-katex";
 
 class GaussSeidel extends Component {
   method = (a, b, x0, tol, n) => {
@@ -53,7 +54,18 @@ class GaussSeidel extends Component {
       new AbstractInput("Iterations", "N", "The number of iterations", false, 100, Types.Regular),
     ];
 
-    const helps = [<p>hola</p>, <p>hola</p>, <p>hola</p>];
+    const helps = [
+      <p>
+        <InlineMath math="A" /> must not have a <InlineMath math="0" /> in the diagonal
+      </p>,
+      <p>
+        The determinant of <InlineMath math="A" /> must be different from <InlineMath math="0" />
+      </p>,
+      <p>
+        <InlineMath math="N" /> and <InlineMath math="Tol" /> must be greater than{" "}
+        <InlineMath math="0" />
+      </p>,
+    ];
 
     return <LinearEquation id="gauss-seidel" inputs={inputs} method={this.method} helps={helps} />;
   };

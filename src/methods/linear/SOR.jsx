@@ -6,6 +6,7 @@ import LinearEquation, {
 } from "../../components/methods/LinearEquation";
 import { diag, add, transpose, multiply, norm, subtract, inv } from "mathjs";
 import App from "../../layout/App";
+import { InlineMath } from "react-katex";
 
 class SOR extends Component {
   method = (a, b, x0, w, tol, n) => {
@@ -55,7 +56,26 @@ class SOR extends Component {
       new AbstractInput("Iterations", "N", "The number of iterations", false, 100, Types.Regular),
     ];
 
-    const helps = [<p>hola</p>, <p>hola</p>, <p>hola</p>];
+    const helps = [
+      <p>
+        <InlineMath math="A" /> must not have a <InlineMath math="0" /> in the diagonal
+      </p>,
+      <p>
+        The determinant of <InlineMath math="A" /> must be different from <InlineMath math="0" />
+      </p>,
+      <p>
+        <InlineMath math="N" /> and <InlineMath math="Tol" /> must be greater than{" "}
+        <InlineMath math="0" />
+      </p>,
+      <p>
+        <InlineMath math="w" /> must be between <InlineMath math="0" /> and <InlineMath math="2" />{" "}
+        (exclusive)
+      </p>,
+      <p>
+        <InlineMath math="w=1" /> is Gauss-Seidel, <InlineMath math="w<1" /> is for systems that
+        didn't converge, and <InlineMath math="w>1" /> is for faster converging
+      </p>,
+    ];
 
     return <LinearEquation id="sor" inputs={inputs} method={this.method} helps={helps} />;
   };
