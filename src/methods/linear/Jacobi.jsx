@@ -21,6 +21,7 @@ class Jacobi extends Component {
     const L = multiply(-1, LinearEquation.tril(a, -1));
     const U = multiply(-1, LinearEquation.triu(a, +1));
 
+    // D^-1 (L+U)x + D^-1 b = x
     const T = multiply(inv(D), add(L, U));
     const C = multiply(inv(D), b);
 

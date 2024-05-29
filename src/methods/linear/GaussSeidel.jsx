@@ -21,6 +21,7 @@ class GaussSeidel extends Component {
     const L = multiply(-1, LinearEquation.tril(a, -1));
     const U = multiply(-1, LinearEquation.triu(a, +1));
 
+    // (D-L)^-1 Ux + (D-L)^-1 b
     const T = multiply(inv(subtract(D, L)), U);
     const C = multiply(inv(subtract(D, L)), b);
 
