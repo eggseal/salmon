@@ -48,7 +48,7 @@ class Vandermonde extends Component {
     });
 
     return new MethodReturn({
-      pol,
+      pol: [pol],
       latex,
       table,
       labels: [...Array.from({ length: n }, (_, k) => `A_${k + 1}`), "x", "b"],

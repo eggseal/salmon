@@ -81,6 +81,13 @@ class Interpolation extends Component {
       const { max, min } = Math;
       const clamp = (val, bot, top) => max(min(val, top), bot);
 
+      const colors = ["#FA8072", "#057F8D", "#4230F0", "#F0D430", "#30F08B", "#9B9053"];
+      const generateData = (fn, colorIdx) => ({
+        fn,
+        sampler: "builtIn",
+        graphType: "polyline",
+        color: colors[colorIdx],
+      });
       const { polynomial } = this.state.result;
       console.log(polynomial);
       const remSize = App.getRem();
@@ -93,14 +100,7 @@ class Interpolation extends Component {
         xDomain: [-extra, extra],
         yDomain: [-extra, extra],
         grid: true,
-        data: [
-          {
-            fn: polynomial,
-            sampler: "builtIn",
-            graphType: "polyline",
-            color: "#FA8072",
-          },
-        ],
+        data: polynomial.map(generateData),
       });
     });
   };
@@ -170,12 +170,12 @@ class Interpolation extends Component {
    */
   downloadEquation = () => {
     const { result: res } = this.state;
-    if (res.polynomial === "") return;
+    if (res.polynomial.length === 0) return;
 
-    let equation = "Polynomial:\n"
-    equation += res.polynomial
+    let equation = "Polynomial:\n";
+    equation += res.polynomial.join("\n");
     equation += "\n\nLaTeX Format:\n";
-    equation += res.latexPol
+    equation += res.latexPol;
 
     const blob = new Blob([equation], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -187,7 +187,7 @@ class Interpolation extends Component {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+  };
 
   /**
    * Convert a AbtractInput into a HTML Element
@@ -205,8 +205,8 @@ class Interpolation extends Component {
             <InlineMath math={inp.label} />:
           </label>
         </td>
-        <td id={id} className={`vector-input-wrapper`}>
-          {Array.from({ length }, (_, pos) => (
+        <td id={id} className={`${id === "type" ? "regular" : "vector"}-input-wrapper`}>
+          {Array.from({ length: length ** (id === "type" ? 0 : 1) }, (_, pos) => (
             <input key={`pos-${pos}`} onChange={(e) => this.updateValue(e, idx, pos)} />
           ))}
         </td>
@@ -367,7 +367,7 @@ export class MethodReturn {
    * }} param0
    */
   constructor({ pol, latex, L, table, labels }) {
-    this.polynomial = pol ?? "";
+    this.polynomial = pol ?? [];
     this.latexPol = latex ?? "";
     this.L = L ?? [];
     this.table = table ?? [];

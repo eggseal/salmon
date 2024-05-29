@@ -29,7 +29,7 @@ class Lagrange extends Component {
     });
 
     return new MethodReturn({
-      pol,
+      pol: [pol],
       latex,
       table,
       labels: ["i", "y_i", "L_{i}(x)", "L_{i}(x)"],

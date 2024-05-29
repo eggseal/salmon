@@ -47,7 +47,7 @@ class Newton extends Component {
     }
 
     return new MethodReturn({
-      pol,
+      pol: [pol],
       latex,
       table: transpose(table),
       labels: ["i", "x_i", "f[x_i]", ...Array.from({ length: n - 1 }, (_, i) => `${i + 1}°`)],
