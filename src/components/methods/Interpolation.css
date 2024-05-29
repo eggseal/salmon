@@ -1,0 +1,23 @@
+.polynomial-container {
+  margin: 0 auto;
+  max-width: 50rem; /* Adjust the width as needed */
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* For backward compatibility */
+  white-space: normal; /* Ensure normal white-space handling */
+}
+.katex {
+  white-space: normal !important; /* Ensure normal white-space handling */
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* For backward compatibility */
+  display: inline-block; /* Ensure inline-block display for proper wrapping */
+}
+.polynomial-container .katex .katex-html {
+  line-height: 3;
+}
+.table-wrapper tr td:last-of-type .katex-display {
+  display: flex;
+  align-items: flex-start;
+}
+#interpolation .table-wrapper .download-btn {
+  margin: 0 0.5rem;
+}
