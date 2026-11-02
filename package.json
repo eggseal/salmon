@@ -1,52 +1,23 @@
 {
-  "homepage": "http://eggseal.github.io/salmon",
-  "name": "method-solver",
-  "version": "0.1.0",
+  "name": "salmon",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "function-plot": "^1.24.4",
-    "interval-arithmetic": "^1.1.2",
-    "mathjs": "^12.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-katex": "^3.0.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "printWidth": 100
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
-    "gh-pages": "^6.1.1"
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/node": "^24.19.2",
+    "gh-pages": "^6.3.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.7",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.5"
   }
 }

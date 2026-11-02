@@ -1,0 +1,43 @@
+:root {
+  --bg-100: hsl(0 0% 0%);
+  --bg-200: #2D1C19a0;
+  --bg-200-alt: #2C2419a0;
+  --bg-300: hsl(8, 14%, 10%);
+  --bg-400: hsl(8, 14%, 15%);
+  --bg-500: hsl(8, 14%, 20%);
+  --bg-600: hsl(8, 14%, 25%);
+  --bg-700: hsl(8, 14%, 30%);
+
+  --fg-100: hsl(0 0% 100%);
+  --fg-200: hsl(9, 6%, 93%);
+  --fg-300: hsl(9, 6%, 83%);
+  --fg-400: hsl(9, 6%, 73%);
+  --fg-500: #FDC1BA;
+  --fg-600: hsl(9, 6%, 53%);
+
+  --accent: #fa8072;
+
+  --b-rad: 0.5rem;
+  --header-height: clamp(65px, 6vh, 90px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--fg-300);
+  background: radial-gradient(circle at 20% 20%, var(--bg-200), transparent 90%),
+      radial-gradient(circle at 80% 80%, var(--bg-200-alt), transparent 75%),var(--bg-100);
+  height: 100dvh;
+}
+
+#app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

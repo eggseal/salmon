@@ -1,0 +1,16 @@
+export const Methods = [
+  "Incremental Search",
+  "Bisection",
+  "Regula Falsi",
+  "Fixed Point",
+  "Newton Raphson",
+  "Secant",
+  "Multiple Roots",
+  "Jacobi",
+  "Gauss Seidel",
+  "SOR",
+  "Vandermonde",
+  "Newton",
+  "Lagrange",
+  "Spline",
+]
